@@ -12,36 +12,37 @@ import {
     FormMessage
 
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 
 // 0 - definition of schema validation ith ZOD
 const formSchema = z.object({
 
-    title: z.string().min(1, {
-        message: "Title is required"
+    description: z.string().min(1, {
+        message: "Description is required"
     }),
 })
 
-interface TitleFormProps {
+interface DescriptionFormProps {
 
     initialData: {
-        title: string;
+        description: string;
     };
     courseId: string;
 
 };
 
 // component
-const TitleForm = ({
+const DescriptionForm = ({
     initialData, courseId
-}: TitleFormProps) => {
+}: DescriptionFormProps) => {
 
     const [isEdeting, setIsEdeting] = useState(false);
 
@@ -61,7 +62,7 @@ const TitleForm = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
-            toast.success('Course Updated');
+            toast.success('Course description Updated');
             toggleEdit();
 
             router.refresh();
@@ -79,21 +80,22 @@ const TitleForm = ({
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Course title
+                Course description
                 <Button variant={"ghost"} onClick={toggleEdit} className="cursor-pointer" >
                     {isEdeting ? (
                         <span>Cancel</span>
                     ) : (
                         <>
-                            <Pencil className="h-4 w-4  mr-2" />
+                            <Pencil className="h-4 w-4 ml-2 mr-2" />
 
-                            <span>Edit title</span>
-                        </>)}
+                            <>Edit description</>
+                        </>
+                    )}
                 </Button>
             </div>
             {!isEdeting && (
-                <p className="text-sm mt-2 " >
-                    {initialData.title}
+                <p className={cn("text-sm mt-2 ", !initialData.description ? "text-slate-500 italic" : "")}>
+                    {initialData.description || "No description"}
                 </p>
             )
             }
@@ -104,13 +106,13 @@ const TitleForm = ({
                     >
                         <FormField
                             control={form.control}
-                            name="title"
+                            name="description"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input disabled={isSubmitting}
+                                        <Textarea disabled={isSubmitting}
                                             className="bg-white"
-                                            placeholder="e.g 'development'"
+                                            placeholder="e.g 'This course is about ...'"
                                             {...field}
                                         />
                                     </FormControl>
@@ -135,4 +137,4 @@ const TitleForm = ({
     )
 }
 
-export default TitleForm
+export default DescriptionForm
