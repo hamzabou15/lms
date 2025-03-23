@@ -6,6 +6,7 @@ import { IconBadge } from '@/components/icon-badge';
 import { LayoutDashboard } from 'lucide-react';
 import TitleForm from './_components/title-form';
 import DescriptionForm from './_components/description-form';
+import ImageForm from './_components/imageForm';
 
 const CourseIdPage = async ({ params }:
     { params: { courseId: string } }
@@ -64,6 +65,10 @@ const CourseIdPage = async ({ params }:
                         courseId={course?.id}
                     />
                     <DescriptionForm
+                        initialData={{ description: course?.description ?? "" }}
+                        courseId={course?.id}
+                    />
+                        <ImageForm
                         initialData={{ description: course?.description ?? "" }}
                         courseId={course?.id}
                     />
