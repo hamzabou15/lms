@@ -69,7 +69,7 @@ const CourseIdPage = async ({ params }:
                         courseId={course?.id}
                     />
                         <ImageForm
-                        initialData={{ description: course?.description ?? "" }}
+                        initialData={course}
                         courseId={course?.id}
                     />
                 </div>
