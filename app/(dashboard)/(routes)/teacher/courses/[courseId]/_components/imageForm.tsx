@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
 import Image from "next/image";
 import FileUplod from "@/components/file-uploade";
-// import "@uploadthing/react/styles.css"; 
+import "@uploadthing/react/styles.css"; 
 
 
 // 0 - definition of schema validation ith ZOD
