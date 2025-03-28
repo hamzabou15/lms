@@ -1,9 +1,13 @@
+import postcssImport from 'postcss-import';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 const config = {
-  plugins: {
-    'postcss-import': {},
-    'tailwindcss': {},
-    'autoprefixer': {},
-  }
+  plugins: [
+    postcssImport(),
+    tailwindcss(),
+    autoprefixer(),
+  ]
 };
 
 export default config;

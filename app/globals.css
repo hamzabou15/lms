@@ -2,10 +2,10 @@
 
 @plugin "tailwindcss-animate";
 
-@import "tailwindcss/preflight";
+/* @import "tailwindcss/preflight";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "@uploadthing/react/styles.css"; 
+@import "@uploadthing/react/styles.css";  */
 
 @custom-variant dark (&:is(.dark *));
 html, body, :root {
