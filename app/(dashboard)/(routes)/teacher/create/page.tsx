@@ -46,7 +46,8 @@ const CreatePage = () => {
             router.push(`/teacher/courses/${response.data.id}`)
             toast.success("Course Created")
         }
-        catch {
+        catch(error) {
+            console.log("error" , error)
             toast.error('Something went wrong !')
         }
     }

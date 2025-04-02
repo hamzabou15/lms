@@ -9,20 +9,31 @@ interface FileUplodeProps {
   endPoint: keyof typeof ourFileRouter;
 }
 
-const FileUplode = ({
+const FileUpload = ({
   onChange, endPoint
 }: FileUplodeProps) => {
   return (
     <UploadDropzone
       endpoint={endPoint}
       onClientUploadComplete={(res) => {
-        onChange(res?.[0].url);
+        if (!res?.[0]?.url) {
+          toast.error("Upload completed but no URL received");
+          return;
+        }
+        else {
+          toast.success("File uploaded");
+        }
+        
+        // Add slight delay for Neon to process
+        setTimeout(() => onChange(res[0].url), 500);
       }}
       onUploadError={(error: Error) => {
+        console.log("error" , error)
         toast.error(`${error.message}`)
       }}
     />
   )
 }
 
-export default FileUplode
+export default FileUpload
+

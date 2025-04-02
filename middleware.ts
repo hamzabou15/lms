@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
 // MatcherRoute for Unprotected Routes
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)'])
+const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)' , "/api/uploadthing"])
 
 // logic for publicRoutes
 export default clerkMiddleware(async (auth, req) => {
@@ -18,3 +18,11 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 }
+
+// export async function middleware(request: NextRequest) {
+//   if (request.nextUrl.pathname.startsWith("/api/uploadthing")) {
+//     return;
+//   }
+
+//   // return await update(request);
+// }

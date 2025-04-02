@@ -11,8 +11,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
 import Image from "next/image";
-import FileUplod from "@/components/file-uploade";
-import "@uploadthing/react/styles.css"; 
+import FileUpload from "@/components/file-uploade";
 
 
 // 0 - definition of schema validation ith ZOD
@@ -112,8 +111,8 @@ const ImageForm = ({
                         <Image
                             alt="Upload course image"
                             fill
-                            className="object-cover rounded-md"
-                            src={initialData.imageUrl}
+                            className="object-contain rounded-md"
+                            src={initialData.imageUrl || ""}
                         />
 
                     </div>
@@ -122,13 +121,15 @@ const ImageForm = ({
             }
             {isEdeting && (
                 <div>
-                    <FileUplod
+                    <FileUpload
                         endPoint="CourseImage"
                         onChange={(url) => {
+                            console.log("File uploaded URL:", url); // Debugging log
                             if (url) {
                                 onSubmit({ imageUrl: url })
                             }
                         }}
+                 
                     />
                     <div className="text-xs text-muted-foreground mt-4">
                         16:9 ascpect ratio recommended
@@ -141,4 +142,4 @@ const ImageForm = ({
     )
 }
 
-export default ImageForm
+export default ImageForm

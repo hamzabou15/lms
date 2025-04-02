@@ -6,7 +6,7 @@ const CoursesPage = () => {
     return (
         <div className='p-6'>
             <Link href={"/teacher/create"}>
-                <Button>
+                <Button className='cursor-pointer'>
                     New Course
                 </Button>
             </Link>

@@ -1,4 +1,5 @@
 // import CourseIdPage from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/page";
+import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 // import { UploadThingError } from "uploadthing/server";
@@ -20,18 +21,31 @@ export const ourFileRouter = {
   CourseImage: f({
     image: { maxFileSize: "4MB", maxFileCount: 1 }
   }).middleware(() => handleAuth())
-    .onUploadComplete(() => {
-
-    }),
+  .onUploadComplete(async ({ file }) => {
+    try {
+      // Verify Neon connection
+      await db.$queryRaw`SELECT 1`;
+      
+      return { 
+        success: true,
+        fileUrl: file.url,
+      };
+    } catch (error) {
+      console.error("Neon connection failed:", error);
+      throw new Error("Database unreachable");
+    }
+  }),
   courseAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {
-
+    .onUploadComplete(({ metadata, file }) => {
+      console.log("File upload complete:", file);
+      console.log("Metadata:", metadata);
     }),
   chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "512GB" } })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {
-
+    .onUploadComplete(({ metadata, file }) => {
+      console.log("File upload complete:", file);
+      console.log("Metadata:", metadata);
     }),
 } satisfies FileRouter;
 

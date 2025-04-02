@@ -19,7 +19,7 @@ const CourseIdPage = async ({ params }:
 
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId
+            id: params?.courseId
         }
     });
 

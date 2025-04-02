@@ -1,13 +1,11 @@
-import postcssImport from 'postcss-import';
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
-
 const config = {
-  plugins: [
-    postcssImport(),
-    tailwindcss(),
-    autoprefixer(),
-  ]
+  plugins: {
+    'postcss-import': {},
+    '@tailwindcss/postcss': {
+      tailwindConfig: './tailwind.config.js' // Path to your Tailwind config
+    },
+    'autoprefixer': {},
+  }
 };
 
 export default config;
