@@ -37,6 +37,13 @@ const CourseIdPage = async ({ params }:
 
     const completionText = `(${completedFields} / ${totalFields})`
 
+
+    const categories = await db.category.findMany({
+        orderBy: {
+            name:"asc",
+        }
+    })
+
     if (!course) {
         return redirect('/')
     }
@@ -68,7 +75,7 @@ const CourseIdPage = async ({ params }:
                         initialData={{ description: course?.description ?? "" }}
                         courseId={course?.id}
                     />
-                        <ImageForm
+                    <ImageForm
                         initialData={course}
                         courseId={course?.id}
                     />
