@@ -3,6 +3,8 @@
 import { ourFileRouter } from "@/app/api/uploadthing/core"
 import { UploadDropzone } from "@/lib/uploaddthing"
 import toast from "react-hot-toast";
+import { twMerge } from 'tailwind-merge'
+
 
 interface FileUplodeProps {
   onChange: (url?: string) => void;
@@ -31,6 +33,8 @@ const FileUpload = ({
         console.log("error" , error)
         toast.error(`${error.message}`)
       }}
+      config={{ cn: twMerge }}
+
     />
   )
 }

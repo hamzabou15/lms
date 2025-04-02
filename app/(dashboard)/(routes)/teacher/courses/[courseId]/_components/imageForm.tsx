@@ -1,18 +1,14 @@
 "use client"
 import * as z from "zod";
 import axios from "axios";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-
 import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
 import Image from "next/image";
 import FileUpload from "@/components/file-uploade";
-
 
 // 0 - definition of schema validation ith ZOD
 const formSchema = z.object({
@@ -23,10 +19,8 @@ const formSchema = z.object({
 })
 
 interface ImageFormProps {
-
     initialData: Course;
     courseId: string;
-
 };
 
 // component
@@ -36,21 +30,10 @@ const ImageForm = ({
 
     const [isEdeting, setIsEdeting] = useState(false);
 
-    // 2 - definition of type of form 
-    // const form = useForm<z.infer<typeof formSchema>>({
-    //     resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         imageUrl: initialData?.imageUrl || ""
-    //     },
-    // });
-
-    // const { isSubmitting, isValid } = form.formState;
-
-
     const router = useRouter();
 
 
-    // 3 - handle of submition of Form
+    // 2 - handle of submition of Form
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
