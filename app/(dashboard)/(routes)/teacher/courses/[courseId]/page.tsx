@@ -10,6 +10,7 @@ import ImageForm from './_components/imageForm';
 import CategoryForm from './_components/category-form';
 import PriceForm from './_components/price-form';
 import AttachmentsForm from './_components/attachments-form';
+import ChaptersForm from './_components/chapters-form';
 
 const CourseIdPage = async ({ params }:
     { params: { courseId: string } }
@@ -22,14 +23,22 @@ const CourseIdPage = async ({ params }:
 
     const course = await db.course.findUnique({
         where: {
-            id: params?.courseId
+            id: params?.courseId,
+            userId
         },
         include: {
+            chapters: {
+                orderBy: {
+                    position: "asc"
+                }
+            },
             attachments: {
                 orderBy: {
                     createdAt: "asc"
                 }
+
             }
+
         }
     });
 
@@ -38,7 +47,8 @@ const CourseIdPage = async ({ params }:
         course?.description,
         course?.imageUrl,
         course?.price,
-        course?.categoryId
+        course?.categoryId,
+        course?.chapters?.some(Chapter => Chapter?.isPublished)
     ]
 
     const totalFields = requiredFiles.length;
@@ -54,8 +64,7 @@ const CourseIdPage = async ({ params }:
         }
     });
 
-    console.log(categories)
-
+    // if don't have the course ith the ID  / return to the ("/")
     if (!course) {
         return redirect('/')
     }
@@ -108,9 +117,10 @@ const CourseIdPage = async ({ params }:
                             />
                             <h2 className='text-xl'>Course Chapters</h2>
                         </div>
-                        <div>
-                            TODO: Chapters
-                        </div>
+                        <ChaptersForm
+                            initialData={course}
+                            courseId={course?.id}
+                        />
                     </div>
                     <PriceForm
                         courseId={course.id}

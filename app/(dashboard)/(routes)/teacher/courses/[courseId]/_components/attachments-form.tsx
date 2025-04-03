@@ -30,19 +30,22 @@ const AttachmentsForm = ({
 
     const onDelete = async (id: string) => {
         try {
-
             setDeletingId(id);
-            await axios.delete(`api/courses/${courseId}/attachments/${id}`);
-            toast.success("attatchment deleted")
-            router.refresh()
-
+            if (!courseId || !id) {
+                toast.error("Course ID or Attachment ID is missing!");
+                return;
+            }
+            await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+            toast.success("Attachment deleted successfully!");
+            router.refresh();
         } catch (error) {
-            console.log("ERROR", error)
-            toast.error('Something went wrong ! ')
+            console.log("Error deleting attachment:", error);
+            toast.error("Something went wrong!");
         } finally {
-            setDeletingId(null)
+            setDeletingId(null);
         }
-    }
+    };
+    
 
     const router = useRouter();
 
@@ -68,7 +71,7 @@ const AttachmentsForm = ({
 
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
-            <div className="font-medium flex items-center justify-between">
+            <div className="font-medium flex items-center justify-between flex-wrap">
                 Course Attachments
                 <Button variant={"ghost"} onClick={toggleEdit} className="cursor-pointer " >
                     {isEdeting && (
