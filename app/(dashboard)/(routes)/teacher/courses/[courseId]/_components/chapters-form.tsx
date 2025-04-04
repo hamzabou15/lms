@@ -31,7 +31,7 @@ const formSchema = z.object({
 
 interface ChaptersFormProps {
 
-    initialData: Course & {chapters: Chapter[]}
+    initialData: Course & { chapters: Chapter[] }
     courseId: string;
 
 };
@@ -41,7 +41,7 @@ const ChaptersForm = ({
     initialData, courseId
 }: ChaptersFormProps) => {
 
-    // const [isUpdating, setIsUpdating] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
     const [isCreating, setIsCreating] = useState(false)
 
     // 2 - definition of type of form 
@@ -61,7 +61,7 @@ const ChaptersForm = ({
         setIsCreating((current) => !current);
     };
 
-    console.log(initialData , "initialData?.chapters")
+    console.log(initialData, "initialData?.chapters")
 
 
     // 3 - handle of submition of Form
@@ -74,6 +74,23 @@ const ChaptersForm = ({
         } catch (error) {
             console.log(error)
             toast.error('Something went wrong ');
+        }
+    }
+
+
+    const onReorder = async (updateData: { id: string; position: number }[]) => {
+        try {
+            setIsUpdating(true)
+            await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+                list: updateData
+            });
+            toast.success('Chapters reordred');
+            router.refresh()
+        } catch {
+            toast.error('Something went wrong ');
+        }
+        finally {
+            setIsUpdating(false)
         }
     }
 
@@ -135,15 +152,15 @@ const ChaptersForm = ({
                     "text-sm mt-2",
                     !initialData?.chapters?.length && "text-slate-500 italic"
                 )}>
-                    {!initialData?.chapters?.length && "No Chapters" }
-                 
+                    {!initialData?.chapters?.length && "No Chapters"}
+
                 </div>
             )}
-               <ChaptersList
-                        onEdit={() => {}}
-                        onReorder={() => {}}
-                        items={initialData?.chapters || []}
-                    />
+            <ChaptersList
+                onEdit={() => { }}
+                onReorder={onReorder}
+                items={initialData?.chapters || []}
+            />
             {!isCreating && (
                 <div className="text-xs text-muted-foreground mt-4">
                     Drag and drop to reorder the chapters

@@ -10,7 +10,7 @@ import {
 } from "@hello-pangea/dnd"
 
 import { cn } from "@/lib/utils";
-import { Grip } from "lucide-react";
+import { Grip, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 
@@ -41,8 +41,28 @@ const ChaptersList = ({
         return null;
     }
 
+    // logic for Drag
+    const handleDragEnd = (result: DropResult) => {
+        if (!result.destination) return; // Si l'utilisateur relâche l'élément en dehors de la liste, on ignore
+
+        const reorderedChapters = [...chapters];
+        const [movedItem] = reorderedChapters.splice(result.source.index, 1);
+        reorderedChapters.splice(result.destination.index, 0, movedItem);
+
+        // Mise à jour des positions
+        const updatedChapters = reorderedChapters.map((chapter, index) => ({
+            ...chapter,
+            position: index + 1, // Position 1-based
+        }));
+
+        setChapters(updatedChapters);
+        onReorder(updatedChapters.map(({ id, position }) => ({ id, position })));
+    };
+
+
+
     return (
-        <DragDropContext onDragEnd={() => { }}>
+        <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="chapters">
                 {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -83,12 +103,18 @@ const ChaptersList = ({
                                             )}  >
                                                 {chapter?.isPublished ? "Published" : "Draft"}
                                             </Badge>
+                                            <Pencil
+                                                className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
+                                                onClick={() => onEdit(chapter?.id)}
+                                            />
                                         </div>
                                     </div>
                                 )}
+
                             </Draggable>
                         ))
                         }
+                        {provided.placeholder}
                     </div>
                 )}
             </Droppable>
