@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { cva, VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority";
 import { AlertTriangle, CheckCircleIcon } from "lucide-react"
 
 
@@ -29,7 +29,7 @@ const iconMap = {
     success: CheckCircleIcon
 }
 
-const banner = ({ label, variant }: BannerProps) => {
+const Banner = ({ label, variant }: BannerProps) => {
 
     const Icon = iconMap[variant || "warning"]
 
@@ -43,4 +43,4 @@ const banner = ({ label, variant }: BannerProps) => {
     )
 }
 
-export default banner
+export default Banner
