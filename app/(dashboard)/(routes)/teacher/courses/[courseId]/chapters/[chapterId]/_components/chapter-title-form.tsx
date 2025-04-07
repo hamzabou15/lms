@@ -78,7 +78,7 @@ const ChapterTitleForm = ({
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Course title
+                Chapter title
                 <Button variant={"ghost"} onClick={toggleEdit} className="cursor-pointer" >
                     {isEdeting ? (
                         <span>Cancel</span>
