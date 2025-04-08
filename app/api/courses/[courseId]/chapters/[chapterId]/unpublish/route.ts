@@ -30,8 +30,25 @@ export async function PATCH(
             }
         })
 
+        const muxData = await db.muxData.findUnique({
+            where: {
+                chapterId: params.chapterId
+            }
+        })
+
+        if (!chapter) {
+            return new NextResponse("Chapter dont exist", { status: 401 })
+        }
+
         const isPublishedChapter = chapter?.isPublished
 
+        if (isPublishedChapter) {
+
+            if (!chapter || !muxData || !chapter.description || !chapter.title || !chapter.videoUrl) {
+                return new NextResponse("Missing resuired fields", { status: 400 })
+            }
+
+        }
         const publishingChapter = await db.chapter.update({
             where: {
                 id: params.chapterId,

@@ -11,6 +11,7 @@ import CategoryForm from './_components/category-form';
 import PriceForm from './_components/price-form';
 import AttachmentsForm from './_components/attachments-form';
 import ChaptersForm from './_components/chapters-form';
+import CourseActions from './_components/course-Actions';
 
 const CourseIdPage = async ({ params }:
     { params: { courseId: string } }
@@ -68,6 +69,10 @@ const CourseIdPage = async ({ params }:
     if (!course) {
         return redirect('/')
     }
+
+    const isComplete = requiredFiles.every(Boolean)
+
+
     return (
         <div className='p-6'>
             <div className='flex items-center justify-between'>
@@ -79,6 +84,11 @@ const CourseIdPage = async ({ params }:
                         Complete all fields {completionText}
                     </span>
                 </div>
+                <CourseActions
+                    courseId={params?.courseId}
+                    disabled={!isComplete}
+                    isPublished={course?.isPublished}
+                />
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 '>
                 <div>

@@ -63,6 +63,7 @@ const ChapterDescriptionForm = ({
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
             toast.success('Chapter Updated');
+            router.refresh();
             toggleEdit();
 
             router.refresh();
@@ -75,6 +76,7 @@ const ChapterDescriptionForm = ({
     const toggleEdit = () => {
         setIsEdeting((current) => !current);
     };
+
 
 
     return (
@@ -95,11 +97,10 @@ const ChapterDescriptionForm = ({
             </div>
             {!isEdeting && (
                 <div className={cn("text-sm mt-2 ", !initialData.description ? "text-slate-500 italic" : "")}>
-                    {!initialData.description && "No description"}
-                    {initialData.description && (
-                        <Preveiw
-                            value={initialData.description}
-                        />
+                    {initialData.description && initialData.description !== "" ? (
+                        <Preveiw value={initialData.description} />
+                    ) : (
+                        "No description"
                     )}
 
                 </div>
