@@ -17,11 +17,11 @@ import { Badge } from "@/components/ui/badge";
 interface ChaptersListprops {
     items: Chapter[],
     onEdit: (id: string) => void,
-    onReorder: (updateData: { id: string; position: number }[]) => void
+    onReorder: (updateData: { id: string; position: number }[]) => void,
 }
 
 const ChaptersList = ({
-    items, onEdit, onReorder
+    items, onEdit, onReorder 
 }: ChaptersListprops) => {
 
 
@@ -62,6 +62,7 @@ const ChaptersList = ({
 
 
     return (
+     
         <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="chapters">
                 {(provided) => (
@@ -103,6 +104,7 @@ const ChaptersList = ({
                                             )}  >
                                                 {chapter?.isPublished ? "Published" : "Draft"}
                                             </Badge>
+                                            {/* to go to the chapter mit ID */}
                                             <Pencil
                                                 className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
                                                 onClick={() => onEdit(chapter?.id)}

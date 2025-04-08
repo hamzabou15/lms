@@ -4,10 +4,14 @@ import Mux from "@mux/mux-node";
 import { NextResponse } from "next/server";
 
 
+// Method to get the video process from Mux
 const { video } = new Mux({
   tokenId: process.env.MUX_TOKEN_ID,
   tokenSecret: process.env.MUX_TOKEN_SECRET
 });
+
+
+// PATCH methode to every time the course Updated
 export async function PATCH(
   req: Request,
   { params }: { params: { courseId: string } }
@@ -15,6 +19,9 @@ export async function PATCH(
   try {
     const { userId } = await auth();
     const { courseId } = params;
+
+    console.log("req", req)
+    // get all data fron the req
     const values = await req.json();
 
     console.log("Updating course with values:", values); // Add logging
@@ -82,7 +89,7 @@ export async function DELETE(
     for (const chapter of course.chapters) {
       console.log("Deleting Mux asset:", chapter.muxData?.assetId)
       if (chapter.muxData?.assetId) {
-           video.assets.delete(chapter?.muxData?.assetId)
+        video.assets.delete(chapter?.muxData?.assetId)
       }
     }
 

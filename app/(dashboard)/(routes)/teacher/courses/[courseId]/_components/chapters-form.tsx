@@ -13,7 +13,7 @@ import {
 
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader, Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -85,7 +85,7 @@ const ChaptersForm = ({
                 list: updateData
             });
             toast.success('Chapters reordred');
-            router.refresh()
+            router.refresh();
         } catch {
             toast.error('Something went wrong ');
         }
@@ -93,94 +93,121 @@ const ChaptersForm = ({
             setIsUpdating(false)
         }
     }
+
+    const [isLoading, setIsLoading] = useState(false);
     // function to edit an specific chapter 
     const onEdit = async (id: string) => {
-        
-        router.push(`/teacher/courses/${courseId}/chapters/${id}`)
+        try {
+            setIsLoading(true)
+
+            await  router.push(`/teacher/courses/${courseId}/chapters/${id}`)
+
+        } catch (error) {
+            console.log("error", error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
 
 
     return (
-        <div className=" relative mt-6 border bg-slate-100 rounded-md p-4">
-            {isUpdating && (
-                <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
-                    <Loader2
-                        className="animate-spin h-6 w-6 text-sky-700"
-                    />
+        <>
+            {
+                isLoading &&
+                <div className="fixed top-0 left-0 h-full z-50 w-full bg-gray-200/30
+                    flex items-center justify-center
+                ">
+                    <Loader className=" h-8 w-8 animate-spin" />
+
                 </div>
-            )
-
             }
-            <div className="font-medium flex items-center justify-between">
-                Course Chapters
-                <Button variant={"ghost"} onClick={toggleCreating} className="cursor-pointer" >
-                    {isCreating ? (
-                        <span>Cancel</span>
-                    ) : (
-                        <>
-                            <PlusCircle className="h-4 w-4 ml-2 mr-2" />
 
-                            <>Add chapter</>
-                        </>
-                    )}
-                </Button>
-            </div>
-
-            {isCreating && (
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-4"
-                    >
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input disabled={isSubmitting}
-                                            className="bg-white"
-                                            placeholder="e.g 'Introduction to the course.'"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+            <div className=" relative mt-6 border bg-slate-100 rounded-md p-4" >
+                {isUpdating && (
+                    <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
+                        <Loader2
+                            className="animate-spin h-6 w-6 text-sky-700"
                         />
-                        <div className="flex items-center gap-x-2">
-                            <Button
-                                disabled={isSubmitting || !isValid}
-                                type="submit"
+                    </div>
+                )
+
+                }
+                <div className="font-medium flex items-center justify-between">
+                    Course Chapters
+                    <Button variant={"ghost"} onClick={toggleCreating} className="cursor-pointer" >
+                        {isCreating ? (
+                            <span>Cancel</span>
+                        ) : (
+                            <>
+                                <PlusCircle className="h-4 w-4 ml-2 mr-2" />
+
+                                <>Add chapter</>
+                            </>
+                        )}
+                    </Button>
+                </div>
+
+                {
+                    isCreating && (
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)}
+                                className="space-y-4 mt-4"
                             >
-                                Create
-                            </Button>
+                                <FormField
+                                    control={form.control}
+                                    name="title"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input disabled={isSubmitting}
+                                                    className="bg-white"
+                                                    placeholder="e.g 'Introduction to the course.'"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <div className="flex items-center gap-x-2">
+                                    <Button
+                                        disabled={isSubmitting || !isValid}
+                                        type="submit"
+                                    >
+                                        Create
+                                    </Button>
+                                </div>
+                            </form>
+                        </Form>
+                    )
+
+                }
+                {
+                    !isCreating && (
+                        <div className={cn(
+                            "text-sm mt-2",
+                            !initialData?.chapters?.length && "text-slate-500 italic"
+                        )}>
+                            {!initialData?.chapters?.length && "No Chapters"}
+
                         </div>
-                    </form>
-                </Form>
-            )
-
-            }
-            {!isCreating && (
-                <div className={cn(
-                    "text-sm mt-2",
-                    !initialData?.chapters?.length && "text-slate-500 italic"
-                )}>
-                    {!initialData?.chapters?.length && "No Chapters"}
-
-                </div>
-            )}
-            <ChaptersList
-                onEdit={onEdit}
-                onReorder={onReorder}
-                items={initialData?.chapters || []}
-            />
-            {!isCreating && (
-                <div className="text-xs text-muted-foreground mt-4">
-                    Drag and drop to reorder the chapters
-                </div>
-            )}
-        </div>
+                    )
+                }
+                <ChaptersList
+                    onEdit={onEdit}
+                    onReorder={onReorder}
+                    items={initialData?.chapters || []}
+                />
+                {
+                    !isCreating && (
+                        <div className="text-xs text-muted-foreground mt-4">
+                            Drag and drop to reorder the chapters
+                        </div>
+                    )
+                }
+            </div>
+        </>
     )
 }
 
