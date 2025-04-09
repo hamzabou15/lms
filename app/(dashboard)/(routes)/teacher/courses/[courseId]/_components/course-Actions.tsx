@@ -1,5 +1,6 @@
 "use client"
 
+import Loading from "@/components/loading"
 import { ConfirmModal } from "@/components/modals/confirm-modal"
 import { Button } from "@/components/ui/button"
 import { useConfettiStore } from "@/hooks/use-confetti-store"
@@ -65,32 +66,41 @@ const CourseActions = ({ disabled, courseId, isPublished }: CourseActionsProps) 
 
 
     return (
-        <div className="flex items-center gap-x-2">
-            <Button
-                onClick={publishCourse}
-                disabled={disabled || isLoading}
-                variant="outline"
-                size="sm"
-                className="cursor-pointer"
+        <>
+            {isLoading &&
 
-            >
-                {isPublished ? "Unpublish" : "Publish"}
+                <Loading
+                    title="Deleting"
+                />
 
-            </Button>
-
-            <ConfirmModal
-                onConfirm={deleteCourse}
-            >
+            }
+            <div className="flex items-center gap-x-2">
                 <Button
-                    className="cursor-pointer"
+                    onClick={publishCourse}
+                    disabled={disabled || isLoading}
+                    variant="outline"
                     size="sm"
-                    disabled={isLoading}
-                >
+                    className="cursor-pointer"
 
-                    <Trash />
+                >
+                    {isPublished ? "Unpublish" : "Publish"}
+
                 </Button>
-            </ConfirmModal>
-        </div>
+
+                <ConfirmModal
+                    onConfirm={deleteCourse}
+                >
+                    <Button
+                        className="cursor-pointer"
+                        size="sm"
+                        disabled={isLoading}
+                    >
+
+                        <Trash />
+                    </Button>
+                </ConfirmModal>
+            </div>
+        </>
     )
 }
 
