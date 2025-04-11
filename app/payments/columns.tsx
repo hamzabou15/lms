@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Course } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal, Pencil, Rows } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
 
 import {
     DropdownMenu,
@@ -12,6 +12,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
+    
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"

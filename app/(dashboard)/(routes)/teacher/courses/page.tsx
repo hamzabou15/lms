@@ -1,9 +1,7 @@
 import { columns } from '@/app/payments/columns'
 import { DataTable } from '@/app/payments/data-table'
-import { Button } from '@/components/ui/button'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from "next/navigation";
-import Link from 'next/link'
 import React from 'react'
 import { db } from '@/lib/db';
 
@@ -28,11 +26,6 @@ const CoursesPage = async () => {
 
     return (
         <div className='p-6'>
-            <Link href={"/teacher/create"}>
-                <Button className='cursor-pointer'>
-                    New Course
-                </Button>
-            </Link>
             <DataTable
                 columns={columns}
                 data={courseData}

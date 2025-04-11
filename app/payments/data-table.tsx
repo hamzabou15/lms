@@ -2,9 +2,11 @@
 
 import {
     ColumnDef,
+    ColumnFiltersState,
     flexRender,
     SortingState,
     getCoreRowModel,
+    getFilteredRowModel,
     useReactTable,
     getPaginationRowModel,
     getSortedRowModel
@@ -21,6 +23,9 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import React from "react"
+import { Input } from "@/components/ui/input"
+import { PlusCircle } from "lucide-react"
+import Link from "next/link"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -32,7 +37,9 @@ export function DataTable<TData, TValue>({
     data,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
-
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+        []
+    )
     const table = useReactTable({
         data,
         columns,
@@ -40,14 +47,34 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
         state: {
-          sorting,
+            sorting,
+            columnFilters
         },
     })
 
     return (
         <div>
-
+            <div className="flex items-center py-4 justify-between">
+                <Input
+                    placeholder="Filter title..."
+                    value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn("title")?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                />
+                <Link href={"/teacher/create"}>
+                    <Button className='cursor-pointer'>
+                        <PlusCircle className="h-4 w-4 mr-2" />
+                        <span className="hidden md:block">
+                            New Course
+                        </span>
+                    </Button>
+                </Link>
+            </div>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
