@@ -91,11 +91,16 @@ model UserProgress {
 model Purchase {
   id        String   @id @default(uuid())
   userId    String
+
   courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
+  // this combination make sur e have one time the purchase form a client for a course not plus
+  @@unique([userId , courseId])
+  
   @@index([courseId])
 }
 
