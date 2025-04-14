@@ -23,15 +23,15 @@ const CourseSidebar = async ({ course, progressCount }: CourseSidebarProps) => {
         return redirect('/')
     }
 
-    const purchase = await db.purchase.findUnique({
-        where: {
-            // the combination beteen userId and courseId in oer schema purchase
-            userId_courseId: {
-                userId,
-                courseId: course.id
-            }
-        }
-    });
+    // const purchase = await db.purchase.findUnique({
+    //     where: {
+    //         // the combination beteen userId and courseId in oer schema purchase
+    //         userId_courseId: {
+    //             userId,
+    //             courseId: course.id
+    //         }
+    //     }
+    // });
 
     return (
         <div className='h-full brder-r flex flex-col overflow-y-auto shadow-sm'>
