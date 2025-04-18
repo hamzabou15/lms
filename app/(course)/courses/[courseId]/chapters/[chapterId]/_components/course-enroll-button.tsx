@@ -1,3 +1,4 @@
+// app/course/courses/[courseId]/chapters/[chapterId]/_components/course-enroll-button.tsx
 "use client"
 import { Button } from '@/components/ui/button'
 import { formatPrice } from '@/lib/format'

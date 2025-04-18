@@ -1,3 +1,4 @@
+// api/courses/[courseId]/checkout/route.ts
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { currentUser } from "@clerk/nextjs/server";
