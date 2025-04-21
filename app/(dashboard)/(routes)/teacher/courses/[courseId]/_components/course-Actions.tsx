@@ -70,7 +70,7 @@ const CourseActions = ({ disabled, courseId, isPublished }: CourseActionsProps) 
             {isLoading &&
 
                 <Loading
-                    title="Deleting"
+                    title={!isPublished ? "publishing course..." : "unpublishing course..."}
                 />
 
             }

@@ -4,6 +4,7 @@ import { Chapter, Course, UserProgress } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import CourseSidebarItem from './courseSidebarItem'
+import CourseProgress from '@/components/Course-progress'
 
 
 interface CourseSidebarProps {
@@ -23,15 +24,17 @@ const CourseSidebar = async ({ course, progressCount }: CourseSidebarProps) => {
         return redirect('/')
     }
 
-    // const purchase = await db.purchase.findUnique({
-    //     where: {
-    //         // the combination beteen userId and courseId in oer schema purchase
-    //         userId_courseId: {
-    //             userId,
-    //             courseId: course.id
-    //         }
-    //     }
-    // });
+    const purchase = await db.purchase.findUnique({
+        where: {
+            // the combination beteen userId and courseId in oer schema purchase
+            userId_courseId: {
+                userId,
+                courseId: course.id
+            }
+        }
+    });
+    
+
 
     return (
         <div className='h-full brder-r flex flex-col overflow-y-auto shadow-sm'>
@@ -39,7 +42,16 @@ const CourseSidebar = async ({ course, progressCount }: CourseSidebarProps) => {
                 <h1 className='font-semibold'>
                     {course.title}
                 </h1>
-                {/* check purchase  and add progress*/}
+                {purchase && (
+                    <div className='mt-10'>
+                        <CourseProgress
+                            variant="success"
+                            value={progressCount}
+                        />
+                    </div>
+                )
+
+                }
             </div>
             <div className='flex flex-col w-full'>
                 {course.chapters.map((chapter) => (
@@ -49,7 +61,7 @@ const CourseSidebar = async ({ course, progressCount }: CourseSidebarProps) => {
                         label={chapter.title}
                         isComplete={!!chapter.userProgress?.[0]?.isCompleted}
                         courseId={course.id}
-                        isLocked={chapter.isFree}
+                        isLocked={chapter.isFree || purchase !== null}
                     />
 
                 ))

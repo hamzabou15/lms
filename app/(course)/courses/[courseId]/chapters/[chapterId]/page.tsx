@@ -7,8 +7,10 @@ import CourseEnrollButton from "./_components/course-enroll-button"
 import { Separator } from "@/components/ui/separator"
 import { Preveiw } from "@/components/preview"
 import { File } from "lucide-react"
+import CourseProgressButton from "./_components/course-progress-button"
 
 const ChapterIdPage = async ({
+
     params
 }: {
     params: {
@@ -57,7 +59,8 @@ const ChapterIdPage = async ({
     //     return redirect("/"); // ou afficher un message d'erreur
     // }
 
-    console.log("attachments" , attachments)
+    
+    console.log("userProgress" , userProgress)
 
     return (
         <div>
@@ -91,9 +94,12 @@ const ChapterIdPage = async ({
                         {chapter.title}
                     </h2>
                     {purchase ? (
-                        <div >
-
-                        </div>
+                        <CourseProgressButton
+                            chapterId={params.chapterId}
+                            courseId={params.courseId}
+                            nextChapterId={nextChapter?.id || ""}
+                            isCompleted={userProgress?.isCompleted}
+                        />
                     ) : (
                         <CourseEnrollButton
                             courseId={params.courseId}

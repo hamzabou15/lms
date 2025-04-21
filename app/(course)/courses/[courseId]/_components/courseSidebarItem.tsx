@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { CheckCircle, Lock, PlayCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface CourseSidebarItemProps {
     id: string;
@@ -34,17 +35,20 @@ const CourseSidebarItem = ({
 
     const Isactive = pathname?.includes(id);
 
-
+    // const [isLoading , setIsLoading] = useState(false)
     const onClick = () => {
+        // setIsLoading(true)
         router.push(`/courses/${courseId}/chapters/${id}`);
+        // setIsLoading(false)
     }
 
     return (
+
         <button
             onClick={onClick}
             type="button"
             className={cn(
-                "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20"
+                "flex items-center gap-x-2 text-slate-500 cursor-pointer text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20"
                 , Isactive && "text-slate-600 bg-slate-400/20"
             )}>
             <div className="flex items-center gap-x-2 p-4">
