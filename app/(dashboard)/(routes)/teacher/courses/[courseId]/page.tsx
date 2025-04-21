@@ -76,7 +76,10 @@ const CourseIdPage = async ({ params }:
 
 
     return (
-        <> {!course.isPublished && (
+        <> 
+        
+        
+        {!course.isPublished && (
             <Banner
                 label="This course is not published. It will not be visible in the list of courses "
                 variant={"warning"}

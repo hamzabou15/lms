@@ -12,7 +12,6 @@ interface CourseEnrollButtonProps {
     price: number
 }
 
-
 const CourseEnrollButton = ({ courseId, price }: CourseEnrollButtonProps) => {
 
     const [isLoading, setIsLoading] = useState(false);

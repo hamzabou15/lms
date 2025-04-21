@@ -9,7 +9,7 @@ const backgroundVariants = cva(
         variants: {
             variant: {
                 default: "bg-sky-100",
-                success: "bg-emerald-700"
+                success: "bg-emerald-700/20"
             },
             size: {
                 default: "p-2",

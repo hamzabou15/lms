@@ -44,7 +44,7 @@ export async function PATCH(
 
         const isPublishedCourse = course.isPublished
 
-        // check if course is Published to retun it Unpublished
+        // check if course is ublished to retun it Unpublished
         if (isPublishedCourse) {
             const courseUnPublished = await db.course.update({
                 where: {
