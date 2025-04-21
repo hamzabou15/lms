@@ -4,6 +4,10 @@ import { cn } from "@/lib/utils";
 import { Loader2, Lock } from "lucide-react";
 import { useState } from "react";
 import MuxPlayer from "@mux/mux-player-react";
+import { useRouter } from "next/navigation";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 interface VideoPlayerProps {
@@ -20,9 +24,38 @@ interface VideoPlayerProps {
 const VideoPlayer = ({ playbackId, courseId, chapterId, nextChapterId, isLocked, completeOnEnd, title }: VideoPlayerProps) => {
 
     const [isReady, setIsReady] = useState(false)
+    const router = useRouter()
+    const confetti = useConfettiStore();
 
 
-    console.log("playbackId" , playbackId)
+    // logic for end of video or chapter
+    const onEnded = async () => {
+        try {
+            if (completeOnEnd) {
+                await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
+                    isCompleted: true,
+                });
+            }
+            if (!nextChapterId) {
+                confetti.onOpen()
+            }
+            toast.success("Progress updated !")
+
+            if (nextChapterId) {
+                router.push(`/courses/${courseId}/chapters/${nextChapterId}`)
+            }
+            router.refresh()
+
+
+        } catch (error) {
+            console.log("ERROR", error)
+            toast.error("Something went wrong !")
+
+        }
+
+    }
+
+
 
     return (
         <div className="relative aspect-video ">
@@ -50,15 +83,13 @@ const VideoPlayer = ({ playbackId, courseId, chapterId, nextChapterId, isLocked,
                     title={title}
                     className={cn(!isReady && "hidden")}
                     onCanPlay={() => setIsReady(true)}
-                    onEnded={() => {
+                    onEnded={onEnded}
 
-                    }}
-                    
                     autoPlay
                     playbackId={playbackId}
                 />
 
-            ) }
+            )}
         </div>
     )
 }

@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import { CheckCircle, Lock, PlayCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 
 interface CourseSidebarItemProps {
     id: string;
@@ -35,11 +34,8 @@ const CourseSidebarItem = ({
 
     const Isactive = pathname?.includes(id);
 
-    // const [isLoading , setIsLoading] = useState(false)
     const onClick = () => {
-        // setIsLoading(true)
         router.push(`/courses/${courseId}/chapters/${id}`);
-        // setIsLoading(false)
     }
 
     return (

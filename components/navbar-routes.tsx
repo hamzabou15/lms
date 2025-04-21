@@ -33,7 +33,7 @@ const NavbarRoutes = () => {
                         <Link href="/">
                             <Button>
                                 <LogOut className="h-4 w-4 mr-2" />
-                                Exit
+                                Back to Student mode
                             </Button>
                         </Link>
 

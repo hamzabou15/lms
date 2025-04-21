@@ -37,7 +37,7 @@ const CourseProgressButton = ({
             await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
                 isCompleted: !completed,
             });
-            
+
             setCompleted(!completed);
 
             if (!isCompleted && !nextChapterId) {
@@ -65,8 +65,10 @@ const CourseProgressButton = ({
         <Button
             type="button"
             onClick={onClick}
+            disabled={isLoading}
             variant={isCompleted ? "destructive" : "success"}
         >
+            
             {isCompleted ? "Not completed" : "Mark as Complete"}
             <Icon
                 className="h-4 w-4 ml-2"
