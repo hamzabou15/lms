@@ -1,5 +1,5 @@
 "use client"
-import * as z from "zod";
+// import * as z from "zod";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Pencil, PlusCircle, VideoIcon } from "lucide-react";
@@ -11,10 +11,9 @@ import FileUpload from "@/components/file-uploade";
 import MuxPlayer from "@mux/mux-player-react";
 
 // 0 - definition of schema validation ith ZOD
-const formSchema = z.object({
-
-    videoUrl: z.string().min(1)
-})
+type FormSchema = {
+    videoUrl: string;
+};
 
 interface ChapterVideoFormProps {
     initialData: Chapter & {
@@ -35,7 +34,7 @@ const ChapterVideoForm = ({
 
 
     // 2 - handle of submition of Form
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: FormSchema) => {
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
             toast.success('Chapter Updated');
@@ -101,7 +100,7 @@ const ChapterVideoForm = ({
             )
             }
             {isEdeting && (
-                <div> 
+                <div>
                     <FileUpload
                         endPoint="chapterVideo"
                         onChange={(url) => {

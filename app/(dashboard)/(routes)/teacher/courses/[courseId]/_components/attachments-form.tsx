@@ -1,5 +1,4 @@
 "use client"
-import * as z from "zod";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { File, Loader2, PlusCircle, X } from "lucide-react";
@@ -10,10 +9,11 @@ import { Attachment, Course } from "@prisma/client";
 import FileUpload from "@/components/file-uploade";
 
 // 0 - definition of schema validation ith ZOD
-const formSchema = z.object({
+type formSchema = {
 
-    Url: z.string().min(1),
-})
+    Url: string
+}
+
 
 interface AttachmentsFormProps {
     initialData: Course & { attachments: Attachment[] };
@@ -45,13 +45,13 @@ const AttachmentsForm = ({
             setDeletingId(null);
         }
     };
-    
+
 
     const router = useRouter();
 
 
     // 2 - handle of submition of Form
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: formSchema) => {
         try {
             await axios.post(`/api/courses/${courseId}/attachments`, values);
             toast.success('Course Updated');

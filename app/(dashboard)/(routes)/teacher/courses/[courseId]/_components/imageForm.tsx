@@ -1,5 +1,4 @@
 "use client"
-import * as z from "zod";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
@@ -11,12 +10,10 @@ import Image from "next/image";
 import FileUpload from "@/components/file-uploade";
 
 // 0 - definition of schema validation ith ZOD
-const formSchema = z.object({
 
-    imageUrl: z.string().min(1, {
-        message: "Image is required"
-    }),
-})
+type formSchema = {
+    imageUrl: string
+}
 
 interface ImageFormProps {
     initialData: Course;
@@ -28,13 +25,14 @@ const ImageForm = ({
     initialData, courseId
 }: ImageFormProps) => {
 
+
     const [isEdeting, setIsEdeting] = useState(false);
 
     const router = useRouter();
 
 
     // 2 - handle of submition of Form
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: formSchema) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
             toast.success('Course description Updated');
@@ -112,7 +110,7 @@ const ImageForm = ({
                                 onSubmit({ imageUrl: url })
                             }
                         }}
-                 
+
                     />
                     <div className="text-xs text-muted-foreground mt-4">
                         16:9 ascpect ratio recommended
