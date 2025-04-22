@@ -12,7 +12,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-    
+
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
@@ -34,6 +34,14 @@ export const columns: ColumnDef<Course>[] = [
                 </Button>
             )
         },
+        cell(row) {
+            const courseId = row.row.original.id;
+            return (
+                <Link href={`/teacher/courses/${courseId}`} className="text-blue-500 font-semibold uppercase hover:underline hover:text-blue-700">
+                    {row.row.original.title}
+                </Link>
+            );
+        }
     },
     {
         accessorKey: "price",
@@ -73,7 +81,7 @@ export const columns: ColumnDef<Course>[] = [
             const isPublished = row.getValue("isPublished") || false;
             return (
                 <Badge className={cn('bg-slate-500',
-                    isPublished && "bg-slate-700"
+                    isPublished && "bg-emerald-700"
                 )}>
                     {isPublished ? "Published" : "Draft"}
                 </Badge>
